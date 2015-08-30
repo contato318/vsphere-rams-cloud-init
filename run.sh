@@ -3,7 +3,7 @@
 set -e
 
 img_url="https://cloud-images.ubuntu.com/trusty/current"
-img_file="trusty-server-cloudimg-amd64-disk1.img"
+img_file="trusty-server-cloudimg-amd64.ova"
 dist_image="${img_file}.dist"
 our_img="magfest-${img_file}"
 
@@ -13,13 +13,25 @@ if [ ! -f $dist_image ]; then
 fi
 
 echo "modifying dist image to have our modifications..."
-cp -f $dist_image $our_img
 
-guestfish --rw -a $our_img <<'EOF'
-run
-mount /dev/sda1 /
-mkdir /root/.ssh
-write-append /root/.ssh/authorized_keys "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDJKBZzNEJxzeLOytMa6lhz2DiRjlHxXvG/qfFIa2SZXY/+IPb7MYEbDhCVBCmSBRgcEx0XqRLs865om/R0t0zUrH5IDwojveQ92I3DzKjkAtrwSbAFpFqNp4vC0+N0ZS0t+lKpMXSlczbwKvZ9LdvHKwDVVjhJDqhvwuiyXCnuTa2ad4ZoAAlBVyn7FCKAXlxfyX0+Kk+J7YLhEm2UGSXmkX61g28I0BczXiPE9veUZtO6POFZ8puX0Av3Pv2rZEPBdpCJYPtUsOpOAXJgYudP9V7ztlcU2nVbPwiBN+ZK9yfYzQa8OWjIUSgUudM7eFRVFu1s0Kyg8xC0VRFYKY6l dom@magfest.org"
-EOF
+mkdir -p contents
+cd contents
+tar xvf ../$dist_image
+
+sed -i 's/^.*ovf:key="seedfrom".*/      <Property ovf:key="seedfrom" ovf:type="string" ovf:userConfigurable="true" ovf:value="https:\/\/raw.githubusercontent.com\/magfest\/vsphere-rams-cloud-init\/master\/cloudinit\/">/' trusty-server-cloudimg-amd64.ovf
+
+sha1=`sha1sum trusty-server-cloudimg-amd64.ovf`
+line="SHA1(trusty-server-cloudimg-amd64.ovf)= $sha1"
+
+sed -i "s/^.*ovf.*/$line/" trusty-server-cloudimg-amd64.mf
+
+# order, and the appending, is EXTREMELY important here
+# http://kristau.net/blog/1265/
+tar cvf ../$our_img *.ovf
+tar uvf ../$our_img *.mf *.vmdk
+
+cd ..
+
+rm -rf contents
 
 echo "done, output file = ${our_img}"
