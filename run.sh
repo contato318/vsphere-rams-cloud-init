@@ -18,7 +18,7 @@ mkdir -p contents
 cd contents
 tar xvf ../$dist_image
 
-sed -i 's/^.*ovf:key="seedfrom".*/      <Property ovf:key="seedfrom" ovf:type="string" ovf:userConfigurable="true" ovf:value="https:\/\/raw.githubusercontent.com\/magfest\/vsphere-rams-cloud-init\/master\/cloudinit\/">/' trusty-server-cloudimg-amd64.ovf
+sed -i 's/^.*ovf:key="seedfrom".*/      <Property ovf:key="seedfrom" ovf:type="string" ovf:userConfigurable="true" ovf:value="https:\/\/raw.githubusercontent.com\/contato318\/vsphere-rams-cloud-init\/master\/cloudinit\/">/' trusty-server-cloudimg-amd64.ovf
 
 sha1=`sha1sum trusty-server-cloudimg-amd64.ovf`
 line="SHA1(trusty-server-cloudimg-amd64.ovf)= $sha1"
