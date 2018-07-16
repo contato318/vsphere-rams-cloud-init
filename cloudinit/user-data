@@ -9,11 +9,11 @@ users:
     gecos: Operador
     primary_group: operador
     groups: users
-    selinux_user: staff_u
+    sudo: ALL=(ALL) NOPASSWD:ALL
     ssh_import_id: operador
     lock_passwd: false
     passwd: $6$z7ZXT8d0$WLgCT0ERIIkm1hCDkaN2q2IkiuNoGkZks7f1wPd9C.E3v3BG5nQcrLcgWn507r5WwVpN93zQhvK9dUHalJzi.0
-  - name: amddirceu
+  - name: admdirceu
     gecos: Dirceu Silva
     sudo: ALL=(ALL) NOPASSWD:ALL
     groups: users, admin
