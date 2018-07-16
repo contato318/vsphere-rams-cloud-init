@@ -1,3 +1,121 @@
+groups:
+  - ubuntu: [root,sys]
+  - cloud-users
+
+# Add users to the system. Users are added after groups are added.
+users:
+  - default
+  - name: operador
+    gecos: Operador
+    primary_group: operador
+    groups: users
+    selinux_user: staff_u
+    ssh_import_id: operador
+    lock_passwd: false
+    passwd: $6$z7ZXT8d0$WLgCT0ERIIkm1hCDkaN2q2IkiuNoGkZks7f1wPd9C.E3v3BG5nQcrLcgWn507r5WwVpN93zQhvK9dUHalJzi.0
+  - name: amddirceu
+    gecos: Dirceu Silva
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    groups: users, admin
+    ssh_import_id: None
+    lock_passwd: true
+    ssh_authorized_keys:
+      - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDIETDKiwSFoIPRnzafSXWLvDpu/iZam3+ABMKlpxNOk0Etv2CkmdkukzAkEj/ws3UMwa/zOV1DBN2cWdGcoC+7kuAP3pfnzKdMVC8L3/rYJTpDVVHhar/L05V5oZ8Kb5++ROKBrN2PsGstb6Oub2IrXAHBmBxz6bp3cGNYsB+K9pEIYeSHnL+OSub7pKg/B+z+vfYiv+g6hY6iMOnLHkYzfLETO2ka8WYSAz132yS+zE3F76/Z0nXM9uTSfwjDgldtOu+AVoUpBsiEjOv4CWDgYA9GZvMNDu6KeRbZAHOZ0S6C2FqH4K9r09LE26k5yMlyTsZg4dNRUPKVYw4gekLx contato318@2mac318.local
+      - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCaOlUwDsWZQfpdMYTz/KQhp8h53gxgaCsRVfGoJ2Aqwt8x+QDFkpDcIqekY4qFoUhC1W5n3o4UbVKejT8E/PtLT2rkO83gfETPhj7O9Hcc2F1Vf3WhyHxZh5jKVoXnkC1qw05oHMviqVANu6eFHd9xFvWrQncAfBLHrlmni3220NuUk9kU2L7BQMt+eSgjx8w1K5psq/g8HwOzriWK9CrX23RaknuspDw1VbSk861IVtfvVH2Q+74NEH2L5KqrPR/bGtD0HEWknWvCd/OZPhvH3bsyg2twh+ZIsECw0zOVjoVST0HzdibnQvZhnc6Ux9JjEw4SB3JpmviEs8vU1lAJ contato318@2mac318.local
+
+# Valid Values:
+#   name: The user's login name
+#   gecos: The user name's real name, i.e. "Bob B. Smith"
+#   homedir: Optional. Set to the local path you want to use. Defaults to
+#           /home/<username>
+#   primary_group: define the primary group. Defaults to a new group created
+#           named after the user.
+#   groups:  Optional. Additional groups to add the user to. Defaults to none
+#   selinux_user:  Optional. The SELinux user for the user's login, such as
+#           "staff_u". When this is omitted the system will select the default
+#           SELinux user.
+#   lock_passwd: Defaults to true. Lock the password to disable password login
+#   inactive: Create the user as inactive
+#   passwd: The hash -- not the password itself -- of the password you want
+#           to use for this user. You can generate a safe hash via:
+#               mkpasswd --method=SHA-512 --rounds=4096
+#           (the above command would create from stdin an SHA-512 password hash
+#           with 4096 salt rounds)
+#
+#           Please note: while the use of a hashed password is better than
+#               plain text, the use of this feature is not ideal. Also,
+#               using a high number of salting rounds will help, but it should
+#               not be relied upon.
+#
+#               To highlight this risk, running John the Ripper against the
+#               example hash above, with a readily available wordlist, revealed
+#               the true password in 12 seconds on a i7-2620QM.
+#
+#               In other words, this feature is a potential security risk and is
+#               provided for your convenience only. If you do not fully trust the
+#               medium over which your cloud-config will be transmitted, then you
+#               should use SSH authentication only.
+#
+#               You have thus been warned.
+#   no_create_home: When set to true, do not create home directory.
+#   no_user_group: When set to true, do not create a group named after the user.
+#   no_log_init: When set to true, do not initialize lastlog and faillog database.
+#   ssh_import_id: Optional. Import SSH ids
+#   ssh_authorized_keys: Optional. [list] Add keys to user's authorized keys file
+#   sudo: Defaults to none. Accepts a sudo rule string, a list of sudo rule
+#         strings or False to explicitly deny sudo usage. Examples:
+#
+#         Allow a user unrestricted sudo access.
+#             sudo:  ALL=(ALL) NOPASSWD:ALL
+#
+#         Adding multiple sudo rule strings.
+#             sudo:
+#               - ALL=(ALL) NOPASSWD:/bin/mysql
+#               - ALL=(ALL) ALL
+#
+#         Prevent sudo access for a user.
+#             sudo: False
+#
+#         Note: Please double check your syntax and make sure it is valid.
+#               cloud-init does not parse/check the syntax of the sudo
+#               directive.
+#   system: Create the user as a system user. This means no home directory.
+#   snapuser: Create a Snappy (Ubuntu-Core) user via the snap create-user
+#             command available on Ubuntu systems.  If the user has an account
+#             on the Ubuntu SSO, specifying the email will allow snap to
+#             request a username and any public ssh keys and will import
+#             these into the system with username specifed by SSO account.
+#             If 'username' is not set in SSO, then username will be the
+#             shortname before the email domain.
+#
+
+# Default user creation:
+#
+# Unless you define users, you will get a 'ubuntu' user on ubuntu systems with the
+# legacy permission (no password sudo, locked user, etc). If however, you want
+# to have the 'ubuntu' user in addition to other users, you need to instruct
+# cloud-init that you also want the default user. To do this use the following
+# syntax:
+#    users:
+#      - default
+#      - bob
+#      - ....
+#  foobar: ...
+#
+# users[0] (the first user in users) overrides the user directive.
+#
+# The 'default' user above references the distro's config:
+# system_info:
+#   default_user:
+#    name: Ubuntu
+#    plain_text_passwd: 'ubuntu'
+#    home: /home/ubuntu
+#    shell: /bin/bash
+#    lock_passwd: True
+#    gecos: Ubuntu
+#    groups: [adm, audio, cdrom, dialout, floppy, video, plugdev, dip, netdev]
+
+
 #cloud-config
 ssh_authorized_keys:
  - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDANxXddzFbed2ol0Z11E1ElkfHpRkM6u/ctR5I6peOm0RxceMjjbgikHrI3G89uFZb467ncehiXwM/ZCqECRTN4+oUZK8Wcs0Uw4X9KH0PGfKx5ORU+94BhOjn6r6Mid2ja9dLfsXysrw1QyKh7p3M2LWmU1XMLboCJ41H/EuPn0PZVGuP5yEOxNjGlCkGw5O/AxERi3U7NWYZ//0OQzLOxV+hrS/JBEKRRBUEGVdYs1TCEG7+LeGWIuF/JI0elbtn35D41jC9c1ONgeYnu8Orr9giQkBmug+/ADemRbzf1J/PnyymtLcEhqkBYSsyiA2sJ6h7uuO/9pM/BuhFsg0p rodrigosouza@mbp-de-rodrigo.grupotba.intra.corp
@@ -7,11 +125,6 @@ package_upgrade: true
 packages:
  - git
  - vim
- - lynx
- - tofrodos
- - puppet
- - tinc
- - fabric
 
 runcmd:
  - echo "DirceuSilva cloud-cfg v1.0" > /var/cloud-info
