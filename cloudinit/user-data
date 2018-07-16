@@ -1,6 +1,6 @@
 #cloud-config
 ssh_authorized_keys:
- - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDJKBZzNEJxzeLOytMa6lhz2DiRjlHxXvG/qfFIa2SZXY/+IPb7MYEbDhCVBCmSBRgcEx0XqRLs865om/R0t0zUrH5IDwojveQ92I3DzKjkAtrwSbAFpFqNp4vC0+N0ZS0t+lKpMXSlczbwKvZ9LdvHKwDVVjhJDqhvwuiyXCnuTa2ad4ZoAAlBVyn7FCKAXlxfyX0+Kk+J7YLhEm2UGSXmkX61g28I0BczXiPE9veUZtO6POFZ8puX0Av3Pv2rZEPBdpCJYPtUsOpOAXJgYudP9V7ztlcU2nVbPwiBN+ZK9yfYzQa8OWjIUSgUudM7eFRVFu1s0Kyg8xC0VRFYKY6l dom@magfest.org
+ - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDANxXddzFbed2ol0Z11E1ElkfHpRkM6u/ctR5I6peOm0RxceMjjbgikHrI3G89uFZb467ncehiXwM/ZCqECRTN4+oUZK8Wcs0Uw4X9KH0PGfKx5ORU+94BhOjn6r6Mid2ja9dLfsXysrw1QyKh7p3M2LWmU1XMLboCJ41H/EuPn0PZVGuP5yEOxNjGlCkGw5O/AxERi3U7NWYZ//0OQzLOxV+hrS/JBEKRRBUEGVdYs1TCEG7+LeGWIuF/JI0elbtn35D41jC9c1ONgeYnu8Orr9giQkBmug+/ADemRbzf1J/PnyymtLcEhqkBYSsyiA2sJ6h7uuO/9pM/BuhFsg0p rodrigosouza@mbp-de-rodrigo.grupotba.intra.corp
 
 package_upgrade: true
 
@@ -14,6 +14,6 @@ packages:
  - fabric
 
 runcmd:
- - echo "magfest cloud-cfg v1.0" > /var/cloud-info
+ - echo "DirceuSilva cloud-cfg v1.0" > /var/cloud-info
  - sed -i 's/^GRUB_CMDLINE_LINUX_DEFAULT.*/GRUB_CMDLINE_LINUX_DEFAULT="console=ttyS0 ds=nocloud"/' /etc/default/grub
  - update-grub
